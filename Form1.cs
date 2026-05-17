@@ -309,7 +309,6 @@ public partial class Form1 : Form
         string displayName = fullName;
         if (displayName.Length > 15) displayName = displayName.Substring(0, 12) + "...";
 
-        // Tek bir Paint olayında hem kahverengi tabanı hem de kırmızıyı birleşik çiziyoruz!
         Panel pnlCombinedTab = new Panel();
         pnlCombinedTab.Location = new Point(0, 0);
         pnlCombinedTab.Size = new Size(60, 10);
@@ -318,30 +317,26 @@ public partial class Form1 : Form
         pnlCombinedTab.Paint += (s, e) => {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-            // 1. Kırmızı Alan ve Rampası için Path Oluşturma
             using (GraphicsPath redPath = new GraphicsPath())
             {
-                redPath.AddLine(2, 2, 37, 2);   // Düz üst çizgi
-                redPath.AddLine(37, 2, 52, 10); // Sağa inen tatlı rampa
-                redPath.AddLine(52, 10, 2, 10); // Alt taban
+                redPath.AddLine(2, 2, 37, 2);
+                redPath.AddLine(37, 2, 52, 10);
+                redPath.AddLine(52, 10, 2, 10);
                 redPath.CloseFigure();
 
-                // 2. Kahverengi Çerçeve/Arka Plan Alanı için Path Oluşturma (Kırmızıyı tam sarsın)
                 using (GraphicsPath brownPath = new GraphicsPath())
                 {
-                    brownPath.AddLine(0, 0, 37, 0);   // Kırmızının biraz üstünden başlar
-                    brownPath.AddLine(37, 0, 54, 10); // Tam kırmızının eğimini takip eden paralel dış eğim
-                    brownPath.AddLine(54, 10, 0, 10); // Alt birleşme çizgisi
+                    brownPath.AddLine(0, 0, 37, 0);
+                    brownPath.AddLine(37, 0, 54, 10);
+                    brownPath.AddLine(54, 10, 0, 10);
                     brownPath.CloseFigure();
 
-                    // Önce arkadaki kahverengi kabuğu çiziyoruz
                     using (SolidBrush brownBrush = new SolidBrush(colorCardboardBrown))
                     {
                         e.Graphics.FillPath(brownBrush, brownPath);
                     }
                 }
 
-                // Sonra öndeki kırmızı etiketi çiziyoruz
                 using (SolidBrush redBrush = new SolidBrush(Color.FromArgb(165, 42, 42)))
                 {
                     e.Graphics.FillPath(redBrush, redPath);
@@ -351,7 +346,7 @@ public partial class Form1 : Form
         pnlWrapper.Controls.Add(pnlCombinedTab);
 
         Button btnDrawer = new Button();
-        btnDrawer.Text = $"   📁 {displayName.PadRight(16)}  ═════════════════════════════════════";
+        btnDrawer.Text = $" {displayName.PadRight(16)}  ══════════════════════════════════════";
         btnDrawer.TextAlign = ContentAlignment.MiddleLeft;
         btnDrawer.Font = new Font("Courier New", 11, FontStyle.Bold);
         btnDrawer.Location = new Point(0, 10);
@@ -486,7 +481,6 @@ public partial class Form1 : Form
         };
         pnlFolder.Controls.Add(btnDelete);
 
-        pnlWrapper.Controls.Add(btnDrawer);
         pnlWrapper.Controls.Add(pnlFolder);
         pnlDrawerContainer.Controls.Add(pnlWrapper);
 
@@ -505,7 +499,6 @@ public partial class Form1 : Form
         UpdateNavigationUI();
         return newItem;
     }
-
     private void TriggerPhysicalPush(Panel clickedWrapper)
     {
         DrawerItem clickedItem = cabinetDrawers.Find(x => x.DrawerWrapper == clickedWrapper);
